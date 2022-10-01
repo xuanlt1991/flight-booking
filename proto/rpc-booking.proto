@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package proto;
+import "booking.proto";
+import "customer.proto";
+import "flight.proto";
+import "empty.proto";
+import "google/protobuf/timestamp.proto";
+option go_package = "github.com/xuanlt1991/flight-booking/pb";
+
+
+message BookingRequest {
+    string id = 1;
+    string customer_id = 2;
+    string flight_id = 3;
+    string booking_code = 4;
+    string status = 5;
+    google.protobuf.Timestamp booked_date = 6;
+
+}
+
+message BookingResponse {
+    Booking booking = 1;
+}
+
+message ViewBookingRequest {
+    string id = 1;
+}
+
+message ViewBookingHistoryRequest {
+    string customer_id = 1;
+}
+
+message CancelBookingRequest {
+    string id = 1;
+}
+
+message ViewBookingResponse {
+    Booking booking = 1;
+    Customer customer = 2;
+    Flight flight = 3;
+}
+
+message ViewBookingHistoryResponse {
+    repeated ViewBookingResponse bookings = 1;
+}
+
+service BookingService {
+    rpc CreateBooking (BookingRequest) returns (BookingResponse);
+    rpc ViewBooking (ViewBookingRequest) returns (ViewBookingResponse);
+    rpc BookingHistory (ViewBookingHistoryRequest) returns (ViewBookingHistoryResponse);
+    rpc CancelBooking (CancelBookingRequest) returns (Empty);
+}

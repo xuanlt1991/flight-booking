@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package proto;
+import "audit.proto";
+import "date.proto";
+import "google/protobuf/timestamp.proto";
+option go_package = "github.com/xuanlt1991/flight-booking/pb";
+
+message Flight {
+    string id = 1;
+    string name = 2;
+    string from = 3;
+    string to = 4;
+    string status = 5;
+    int64 available_slot = 6;
+    Date departure_date = 7;
+    Date arrival_date = 8;
+    google.protobuf.Timestamp departure_time = 9;
+    google.protobuf.Timestamp arrival_time = 10;
+    Audit audit = 11;
+}

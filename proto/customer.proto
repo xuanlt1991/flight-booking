@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package proto;
+import "audit.proto";
+//import "google/protobuf/timestamp.proto";
+option go_package = "github.com/xuanlt1991/flight-booking/pb";
+
+message Customer {
+    string id = 1;
+    string first_name = 2;
+    string last_name = 3;
+    string address = 4;
+    string license = 5;
+    string phone_number = 6;
+    string email = 7;
+    string status = 8;
+    // google.protobuf.Timestamp created_at = 9;
+    // google.protobuf.Timestamp modified_at = 10;
+    Audit audit = 9;
+}

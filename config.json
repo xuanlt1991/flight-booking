@@ -1,0 +1,42 @@
+{
+    "dbconnection": {
+        "driver": "postgres",
+        "dbsource": {
+            "host": "localhost",
+            "port": 5432,
+            "username": "root",
+            "password": "secret",
+            "database": "flight_booking",
+            "ssl_mode": "disable",
+            "time_zone": "Asia/Ho_Chi_minh"
+        }
+    },
+    "api": {
+        "customer": {
+            "host": "localhost",
+            "port": "5001"
+        },
+        "flight": {
+            "host": "localhost",
+            "port": "5002"
+        },
+        "booking": {
+            "host": "localhost",
+            "port": "5003"
+        }
+    },
+    "grpc": {
+        "customer": {
+            "host": "localhost",
+            "port": "4001"
+        },
+        "flight": {
+            "host": "localhost",
+            "port": "4002"
+        },
+        "booking": {
+            "host": "localhost",
+            "port": "4003"
+        }
+    }
+}

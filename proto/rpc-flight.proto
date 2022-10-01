@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package proto;
+import "flight.proto";
+import "date.proto";
+import "google/protobuf/timestamp.proto";
+option go_package = "github.com/xuanlt1991/flight-booking/pb";
+
+message FlightRequest {
+    string id = 1;
+    
+    string name = 2;
+    string from = 3;
+    string to = 4;
+    string status = 5;
+    int64 available_slot = 6;
+    Date departure_date = 7;
+    Date arrival_date = 8;
+    google.protobuf.Timestamp departure_time = 9;
+    google.protobuf.Timestamp arrival_time = 10;
+}
+
+message FlightResponse {
+    Flight flight = 1;
+}
+
+message SearchFlightRequest {
+    string from = 1;
+    string to = 2;
+    Date departure_date = 3;
+    Date arrival_date = 4;
+}
+
+
+message SearchFlightResponse {
+    repeated FlightResponse flights = 1;
+}
+
+message ViewFlightRequest {
+    string id = 1;
+}
+
+service FlightService {
+    rpc CreateFlight (FlightRequest) returns (FlightResponse);
+    rpc UpdateFlight (FlightRequest) returns (FlightResponse);
+    rpc ViewFlight (ViewFlightRequest) returns (FlightResponse);
+    rpc SearchFlight (SearchFlightRequest) returns (SearchFlightResponse);
+}

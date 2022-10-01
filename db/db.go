@@ -2,8 +2,9 @@ package db
 
 import (
 	"fmt"
+	"log"
 
-	"github.com/spf13/viper"
+	config "github.com/xuanlt1991/flight-booking/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -18,20 +19,20 @@ type DBConnection struct {
 	Timezone string
 }
 
-func NewDBConnection() DBConnection {
+func NewDBConnection(config *config.Config, dbName string) DBConnection {
 	return DBConnection{
-		Host:     viper.GetString("postgres.host"),
-		Port:     viper.GetInt("postgres.port"),
-		Username: viper.GetString("postgres.username"),
-		Password: viper.GetString("postgres.password"),
-		Database: viper.GetString("postgres.database"),
-		SSLMode:  viper.GetString("postgres.ssl_mode"),
-		Timezone: viper.GetString("postgres.time_zone"),
+		Host:     config.DBConnection.DBSource.Host,
+		Port:     config.DBConnection.DBSource.Port,
+		Username: config.DBConnection.DBSource.Username,
+		Password: config.DBConnection.DBSource.Password,
+		Database: dbName,
+		SSLMode:  config.DBConnection.DBSource.SSLMode,
+		Timezone: config.DBConnection.DBSource.TimeZone,
 	}
 }
 
 func (d DBConnection) ToConnectionString() string {
-	return fmt.Sprintf("host=%v user=%v password=%v dbname=%v port=%v sslmode=%v TimeZone=%v",
+	conn := fmt.Sprintf("host=%v user=%v password=%v dbname=%v port=%v sslmode=%v TimeZone=%v",
 		d.Host,
 		d.Username,
 		d.Password,
@@ -39,9 +40,12 @@ func (d DBConnection) ToConnectionString() string {
 		d.Port,
 		d.SSLMode,
 		d.Timezone)
+	log.Println("connection: ", conn)
+	return conn
 }
 
-func NewGormDB() (*gorm.DB, error) {
-	c := NewDBConnection().ToConnectionString()
+func OpenDBConnection(config *config.Config, dbName string) (*gorm.DB, error) {
+	log.Printf("dbConnection: %v\n", config.DBConnection.DBSource)
+	c := NewDBConnection(config, dbName).ToConnectionString()
 	return gorm.Open(postgres.Open(c))
 }
